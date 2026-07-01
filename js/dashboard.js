@@ -18,25 +18,29 @@ auth.onAuthStateChanged(async user => {
   const progress = data.progress || {};
   const totalPoints = data.totalPoints || 0;
 
-  document.getElementById('user-name').textContent = data.name || 'Lerner';
-  document.getElementById('streak-count').textContent = `${streak.current} Tage`;
-  document.getElementById('streak-longest').textContent = `${streak.longest} Tage`;
-  document.getElementById('total-points').textContent = totalPoints.toLocaleString();
+  const nameEl = document.getElementById('user-name-display') || document.getElementById('user-name');
+  if (nameEl) nameEl.textContent = data.name || 'Lerner';
+
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+  setText('streak-count', `${streak.current} Tage`);
+  setText('streak-longest', `${streak.longest} Tage`);
+  setText('total-points', totalPoints.toLocaleString());
 
   const today = new Date().toISOString().slice(0, 10);
   const todayLog = await db.collection('dailyLogs').doc(`${user.uid}_${today}`).get();
   const todayCount = todayLog.exists ? todayLog.data().itemsCompletedToday?.length || 0 : 0;
-  document.getElementById('today-items').textContent = `${todayCount} today`;
+  setText('today-items', `${todayCount} today`);
 
   const busuuDone = progress.busuuChapters?.length || 0;
   const yt1Done = progress.playlist1Videos?.length || 0;
   const yt2Done = progress.playlist2Videos?.length || 0;
   const bookDone = progress.bookChapters?.length || 0;
-  document.getElementById('busuu-progress').textContent = `${busuuDone}/31`;
-  document.getElementById('yt1-progress').textContent = `${yt1Done}/58`;
-  document.getElementById('yt2-progress').textContent = `${yt2Done}/83`;
-  document.getElementById('book-progress').textContent = `${bookDone}/24`;
 
-  const totalItems = busuuDone + yt1Done + yt2Done + bookDone;
-  document.getElementById('total-items').textContent = totalItems;
+  setText('busuu-progress', `${busuuDone}/31`);
+  setText('yt1-progress', `${yt1Done}/58`);
+  setText('yt2-progress', `${yt2Done}/83`);
+  setText('book-progress', `${bookDone}/24`);
+
+  setText('total-items', busuuDone + yt1Done + yt2Done + bookDone);
 });
