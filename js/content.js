@@ -107,7 +107,8 @@ function showToast(idx) {
   const cfg = TAB_CONFIG.find(t => t.id === currentTab);
   const done = (userProgress[cfg.key] || []).includes(idx);
   const t = document.getElementById('toast');
-  t.querySelector('span').textContent = done ? 'Gespeichert! ✓' : 'Entfernt';
+  if (!t) return;
+  t.textContent = done ? 'Gespeichert! ✓' : 'Entfernt';
   t.className = `fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 ${done ? 'bg-primary text-on-primary' : 'bg-surface-container-high text-on-surface'} rounded-xl font-headline font-bold shadow-lg transition-all duration-300`;
   setTimeout(() => { t.className += ' opacity-0'; }, 2000);
 }
