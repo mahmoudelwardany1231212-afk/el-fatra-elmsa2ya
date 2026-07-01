@@ -1,0 +1,39 @@
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+.symbol-fill { font-variation-settings: 'FILL' 1; }
+
+/* Masonry grid for content page */
+.masonry-grid { column-count: 1; column-gap: 1.5rem; }
+@media (min-width: 640px) { .masonry-grid { column-count: 2; } }
+@media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+.masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f4f4f1; }
+::-webkit-scrollbar-thumb { background: #dadad7; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #c0c0bd; }
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid #e8e8e5;
+  border-top-color: #e60023;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="light" lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bestenliste - Streak System</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "background": "#f9f9f6", "on-background": "#1a1c1b",
+        "surface": "#f9f9f6", "surface-dim": "#dadad7",
+        "surface-container": "#eeeeeb", "surface-container-high": "#e8e8e5",
+        "surface-container-low": "#f4f4f1", "surface-container-lowest": "#ffffff",
+        "primary": "#b7001a", "primary-container": "#e60023",
+        "on-primary": "#ffffff", "on-primary-container": "#fff7f6",
+        "secondary": "#745b00", "secondary-container": "#fecb00",
+        "on-secondary": "#ffffff",
+        "on-surface": "#1a1c1b", "on-surface-variant": "#5e3f3c",
+        "outline": "#936e6b", "outline-variant": "#e8bcb8",
+        "berlin-ink": "#000000", "traffic-gold": "#FFCC00",
+        "concrete-gray": "#dadad3"
+      },
+      borderRadius: { DEFAULT: "0.5rem", sm: "0.25rem", md: "0.75rem", lg: "1rem", xl: "1.5rem", full: "9999px" },
+      fontFamily: { headline: ["Manrope", "sans-serif"], display: ["Manrope", "sans-serif"], body: ["Inter", "sans-serif"], label: ["Inter", "sans-serif"] }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<nav class="sticky top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-surface/90 backdrop-blur-md border-b border-concrete-gray">
+  <div class="flex items-center gap-8">
+    <a class="text-2xl font-black tracking-tighter text-berlin-ink font-headline" href="dashboard.html">Streak System</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="content.html">Lektionen</a>
+      <a class="text-primary border-b-2 border-primary font-bold pb-1" href="leaderboard.html">Rangliste</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="dashboard.html">Dashboard</a>
+    </div>
+  </div>
+  <div class="flex items-center gap-4">
+    <button onclick="logout()" class="text-primary font-bold font-label hover:text-primary-container transition-colors">Abmelden</button>
+  </div>
+</nav>
+
+<main class="flex-grow flex flex-col items-center w-full px-4 md:px-margin-page-desktop py-12 max-w-[1440px] mx-auto">
+  <div class="text-center mb-16 max-w-2xl">
+    <h1 class="font-headline font-bold text-4xl md:text-5xl text-berlin-ink tracking-tight mb-4">Bestenliste der Abendstunden</h1>
+    <p class="font-body text-lg text-on-surface-variant">Vergleiche deinen Lernfortschritt mit der Community. Bleib konstant, sammle Punkte und erobere die Straßen Berlins.</p>
+  </div>
+
+  <!-- Podium -->
+  <div id="podium" class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16 w-full max-w-4xl items-end relative"></div>
+
+  <!-- Leaderboard List -->
+  <div class="w-full max-w-4xl flex flex-col gap-3">
+    <div class="flex items-center justify-between px-6 py-3 border-b border-concrete-gray text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-2">
+      <div class="w-12 text-center">Rang</div>
+      <div class="flex-grow ml-4">Name</div>
+      <div class="w-24 text-center">Streak</div>
+      <div class="w-24 text-right">Punkte</div>
+    </div>
+    <div id="leaderboard-list"></div>
+  </div>
+</main>
+
+<footer class="bg-surface-container-low w-full py-12 border-t border-concrete-gray mt-auto">
+  <div class="max-w-[1440px] mx-auto text-center text-sm text-on-surface-variant">
+    <p>&copy; 2026 Streak System. Mit Liebe gemacht.</p>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/streak.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/leaderboard.js"></script>
+</body>
+</html>

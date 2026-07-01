@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html class="light" lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lerninhalte - Streak System</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "background": "#f9f9f6", "on-background": "#1a1c1b",
+        "surface": "#f9f9f6", "surface-dim": "#dadad7",
+        "surface-container": "#eeeeeb", "surface-container-high": "#e8e8e5",
+        "surface-container-low": "#f4f4f1", "surface-container-lowest": "#ffffff",
+        "primary": "#b7001a", "primary-container": "#e60023",
+        "on-primary": "#ffffff", "on-primary-container": "#fff7f6",
+        "secondary": "#745b00", "secondary-container": "#fecb00",
+        "on-secondary": "#ffffff", "on-secondary-container": "#6e5700",
+        "on-surface": "#1a1c1b", "on-surface-variant": "#5e3f3c",
+        "outline": "#936e6b", "outline-variant": "#e8bcb8",
+        "berlin-ink": "#000000", "traffic-gold": "#FFCC00"
+      },
+      borderRadius: { DEFAULT: "0.5rem", sm: "0.25rem", md: "0.75rem", lg: "1rem", xl: "1.5rem", full: "9999px" },
+      spacing: { base: "8px", "padding-card": "16px", "padding-modal": "32px", "margin-page-desktop": "24px" },
+      fontFamily: { headline: ["Manrope", "sans-serif"], display: ["Manrope", "sans-serif"], body: ["Inter", "sans-serif"], label: ["Inter", "sans-serif"] },
+      fontSize: {
+        "display-lg": ["44px", { lineHeight: "50px", letterSpacing: "-0.8px", fontWeight: "700" }],
+        "headline-md": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+        "body-md": ["16px", { lineHeight: "22px", fontWeight: "400" }],
+        "label-md": ["14px", { lineHeight: "14px", fontWeight: "700" }],
+        "caption": ["12px", { lineHeight: "18px", fontWeight: "500" }]
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="font-body text-on-surface antialiased bg-[#f6f6f3]">
+<nav class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-page-desktop py-4 bg-surface/90 backdrop-blur-md border-b border-surface-dim">
+  <div class="flex items-center gap-8">
+    <a class="text-headline-xl font-black tracking-tighter text-on-surface" href="dashboard.html">Streak System</a>
+    <div class="hidden md:flex items-center gap-6">
+      <a class="text-primary border-b-2 border-primary font-bold py-1" href="content.html">Lektionen</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary py-1" href="leaderboard.html">Rangliste</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary py-1" href="dashboard.html">Dashboard</a>
+    </div>
+  </div>
+  <div class="flex items-center gap-4">
+    <button onclick="logout()" class="font-label text-label-md font-bold text-primary hover:text-primary-container transition-colors">Abmelden</button>
+  </div>
+</nav>
+
+<main class="max-w-[1440px] mx-auto px-margin-page-desktop py-12 relative min-h-screen">
+  <header class="mb-10">
+    <h1 class="text-display-lg font-display mb-8">Dein Lernplan</h1>
+    <div class="flex space-x-8 border-b border-surface-dim overflow-x-auto">
+      <button class="tab-btn pb-4 text-primary border-b-2 border-primary font-headline font-bold whitespace-nowrap text-headline-md px-2" data-tab="busuu" onclick="switchTab('busuu')">Busuu Lektionen</button>
+      <button class="tab-btn pb-4 text-on-surface-variant font-headline font-medium hover:text-on-surface whitespace-nowrap text-headline-md px-2 transition-colors" data-tab="playlist1" onclick="switchTab('playlist1')">Easy German 1 (58 Videos)</button>
+      <button class="tab-btn pb-4 text-on-surface-variant font-headline font-medium hover:text-on-surface whitespace-nowrap text-headline-md px-2 transition-colors" data-tab="playlist2" onclick="switchTab('playlist2')">Easy German 2 (83 Videos)</button>
+      <button class="tab-btn pb-4 text-on-surface-variant font-headline font-medium hover:text-on-surface whitespace-nowrap text-headline-md px-2 transition-colors" data-tab="book" onclick="switchTab('book')">Menschen Buch</button>
+    </div>
+    <div class="mt-4 flex gap-4 text-sm text-on-surface-variant">
+      <a href="https://youtube.com/playlist?list=PLawKOZJF6P4aFnQ0IZ8DruunUg5PZEflI" target="_blank" class="hover:text-primary underline">Playlist 1 →</a>
+      <a href="https://youtube.com/playlist?list=PLk1fjOl39-50kWobutO8NVFzbw9PHtbbg" target="_blank" class="hover:text-primary underline">Playlist 2 →</a>
+    </div>
+  </header>
+
+  <div id="checklist-grid" class="masonry-grid pb-32"></div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl font-headline font-bold shadow-lg opacity-0 pointer-events-none transition-all duration-300"></div>
+</main>
+
+<footer class="w-full py-12 border-t border-surface-dim bg-surface-container-low">
+  <div class="max-w-[1440px] mx-auto text-center text-sm text-on-surface-variant">
+    <p>&copy; 2026 Streak System. Mit Liebe gemacht.</p>
+  </div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/streak.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/content.js"></script>
+</body>
+</html>
